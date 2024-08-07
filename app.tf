@@ -14,7 +14,7 @@ resource "azurerm_linux_web_app" "app" {
   site_config {
     always_on = false
     application_stack {
-      docker_image_name = "${azurerm_container_registry.acr.login_server}/azure-vote:1.0"
+      docker_image_name = "azure-vote:1.0"
       docker_registry_url = "https://${azurerm_container_registry.acr.login_server}"
       docker_registry_username = azurerm_container_registry.acr.admin_username
       docker_registry_password = azurerm_container_registry.acr.admin_password
@@ -25,5 +25,6 @@ resource "azurerm_linux_web_app" "app" {
     MYSQL_PASSWORD = azurerm_mysql_flexible_server.mysql.administrator_password
     MYSQL_HOST= azurerm_mysql_flexible_server.mysql.fqdn
     MYSQL_DATABASE= azurerm_mysql_flexible_database.mysql.name
+    "DOCKER_ENABLE_CI" = "true"
   }
 }
