@@ -27,4 +27,3 @@ resource "azurerm_linux_web_app" "app" {
     MYSQL_DATABASE= azurerm_mysql_flexible_database.mysql.name
   }
 }
-#check
