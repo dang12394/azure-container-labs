@@ -10,6 +10,7 @@ resource "azurerm_mysql_flexible_server" "mysql" {
     io_scaling_enabled = true
     auto_grow_enabled = false
   }
+  zone = "2"
 }
 
 resource "azurerm_mysql_flexible_server_firewall_rule" "mysql" {
@@ -26,14 +27,4 @@ resource "azurerm_mysql_flexible_database" "mysql" {
   server_name = azurerm_mysql_flexible_server.mysql.name
   charset = "utf8"
   collation = "utf8_unicode_ci"
-}
-
-resource "null_resource" "create_table" {
-  depends_on = [azurerm_mysql_flexible_database.mysql]
-
-  provisioner "local-exec" {
-    command = <<EOT
-      mysql -h ${azurerm_mysql_flexible_server.mysql.fqdn} -u ${azurerm_mysql_flexible_server.mysql.administrator_login}@${azurerm_mysql_flexible_server.mysql.name} -p ${azurerm_mysql_flexible_server.mysql.administrator_password} -e "CREATE TABLE ${azurerm_mysql_flexible_database.mysql.name}.azurevote (voteid INT NOT NULL AUTO_INCREMENT,votevalue VARCHAR(45) NULL,PRIMARY KEY (voteid));"
-    EOT
-  }
 }

@@ -15,7 +15,7 @@ resource "azurerm_linux_web_app" "app" {
     always_on = false
     application_stack {
       docker_image_name = "${azurerm_container_registry.acr.login_server}/azure-vote:1.0"
-      docker_registry_url = azurerm_container_registry.acr.login_server
+      docker_registry_url = "https://${azurerm_container_registry.acr.login_server}"
       docker_registry_username = azurerm_container_registry.acr.admin_username
       docker_registry_password = azurerm_container_registry.acr.admin_password
     }
